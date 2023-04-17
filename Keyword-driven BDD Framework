@@ -1,0 +1,53 @@
+Keyword-driven BDD Framework
+This project is a Keyword-driven Behavior-driven Development (BDD) framework for testing the WebstaurantStore website using Selenium WebDriver, Cucumber, and TestNG. The framework is designed to be easily maintainable and scalable, allowing testers to create test scripts using a set of predefined keywords that define common UI interactions.
+
+Overview
+A Keyword-driven BDD framework combines the concepts of BDD and Keyword-driven testing, enabling the creation of human-readable test scenarios using natural language while also providing a set of reusable keywords to perform common UI actions. This approach reduces the learning curve for non-technical stakeholders, fosters collaboration between team members, and improves maintainability of test scripts.
+
+In this framework, Cucumber is used to manage test scenarios written in Gherkin syntax. These scenarios consist of steps that use predefined keywords to interact with web elements. The keywords are implemented in the TestSteps class, which contains Cucumber step definitions that map to the respective keyword actions. The test steps then leverage utility classes in the com.webstaurant.utils package to perform the desired actions on web elements.
+
+Keyword Implementation
+The TestSteps class in the com.webstaurant.steps package contains the step definitions that implement the keywords for this framework. Each keyword corresponds to a specific action or UI interaction, such as clicking a web element, entering text, or verifying text. The keywords are mapped to step definitions using Cucumber annotations, such as @Given, @When, and @Then.
+
+The following keywords are available in this framework:
+
+enterText: Enters text into a specified web element.
+clickObject: Clicks a specified web element.
+verifyWebListText: Verifies that the text of a list of web elements contains an expected value.
+clickOnLastItem: Clicks the last web element in a list.
+verifyText: Verifies that the text of a specified web element contains an expected value.
+Usage
+To create a test scenario using this Keyword-driven BDD framework, write a feature file containing a scenario in Gherkin syntax. Each step in the scenario should use one of the predefined keywords, followed by a data table that specifies the web element(s) and any additional parameters required for the action.
+
+Example:
+  Scenario: Search for Item
+    Given User navigates to the webstaurantStore website
+    When User search for stainless work table|enterText
+      | ObjectName            | text                 |
+      | webstaurant.searchBar | stainless work table |
+    And User click on Search button  | clickObject
+      | ObjectName               |
+      | webstaurant.searchButton |
+    And User verify search results contain word Table | verifyWebListText
+      | ObjectName                | expectedValue |
+      | webstaurant.productTitles | Table         |
+    And User click last item  | clickOnLastItem
+      | ObjectName                |
+      | webstaurant.productTitles |
+    And User add item to the cart  | clickObject
+      | ObjectName            |
+      | webstaurant.addToCart |
+    And User click to view item in the cart | clickObject
+      | ObjectName           |
+      | webstaurant.viewCart |
+    And User click on empty cart button | clickObject
+      | ObjectName                  |
+      | webstaurant.emptyCartButton |
+    Then User confirm to empty the item in the cart | clickObject
+      | ObjectName                         |
+      | webstaurant.confirmEmptyCartButton |
+    And User verify the cart is empty | verifyText
+      | ObjectName                | expectedValue       |
+      | webstaurant.emptyCartText | Your cart is empty. |
+      
+      When the test scenario is executed, the TestSteps class will map each keyword in the scenario to the corresponding step definition, which in turn calls the appropriate methods in the CommonUI utility class to perform the desired actions on the specified web elements.
